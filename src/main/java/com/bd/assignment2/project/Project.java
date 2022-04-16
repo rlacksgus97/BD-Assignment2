@@ -1,6 +1,7 @@
 package com.bd.assignment2.project;
 
 import com.bd.assignment2.game.Game;
+import com.bd.assignment2.project.dto.UpdateProjectReqDto;
 import com.bd.assignment2.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -28,4 +29,8 @@ public class Project {
 
     @OneToOne
     private Game game;
+
+    public void update(UpdateProjectReqDto updateProjectReqDto) {
+        this.code = updateProjectReqDto.getCode();
+    }
 }
