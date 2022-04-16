@@ -38,4 +38,9 @@ public class User {
     public void updateRefreshToken(String refreshToken) {
         this.refreshToken = refreshToken;
     }
+
+    public void addProject(Project project) {
+        this.projects.add(project);
+        project.setUser(this);
+    }
 }
