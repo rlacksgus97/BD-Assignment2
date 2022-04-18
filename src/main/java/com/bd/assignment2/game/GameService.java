@@ -4,6 +4,8 @@ import com.bd.assignment2.config.jwt.JwtService;
 import com.bd.assignment2.game.dto.PublishGameReqDto;
 import com.bd.assignment2.game.dto.ReadGameResDto;
 import com.bd.assignment2.game.dto.SimpleGameResDto;
+import com.bd.assignment2.project.Project;
+import com.bd.assignment2.project.ProjectRepository;
 import com.bd.assignment2.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,10 +19,13 @@ import java.util.Optional;
 public class GameService {
 
     private final JwtService jwtService;
+    private final ProjectRepository projectRepository;
     private final GameRepository gameRepository;
 
     public Long publish(Long projectId, PublishGameReqDto publishGameReqDto) {
         User user = jwtService.getUserFromJwt();
+        Project project = projectRepository.findById(projectId)
+                .orElseThrow(() -> new RuntimeException("존재하지 않는 프로젝트입니다"));
         Optional<Game> game = gameRepository.findByProjectId(projectId);
         if (game.isPresent()) {
             game.get().update(publishGameReqDto);
@@ -30,8 +35,11 @@ public class GameService {
                     .title(publishGameReqDto.getTitle())
                     .code(publishGameReqDto.getCode())
                     .build();
+            publishment.setProject(project);
             gameRepository.save(publishment);
+
             user.addGame(publishment);
+
             return publishment.getId();
         }
     }
