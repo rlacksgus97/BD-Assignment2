@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller("/game")
+@Controller
+@RequestMapping("/game")
 @RequiredArgsConstructor
 public class GameController {
 
