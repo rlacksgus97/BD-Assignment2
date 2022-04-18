@@ -43,4 +43,14 @@ public class User {
         this.projects.add(project);
         project.setUser(this);
     }
+
+    public void addGame(Game game) {
+        this.games.add(game);
+        game.setUser(this);
+    }
+
+    public void addHeart(Heart heart) {
+        this.hearts.add(heart);
+        heart.setUser(this);
+    }
 }

@@ -1,5 +1,6 @@
 package com.bd.assignment2.game;
 
+import com.bd.assignment2.game.dto.PublishGameReqDto;
 import com.bd.assignment2.heart.Heart;
 import com.bd.assignment2.project.Project;
 import com.bd.assignment2.user.User;
@@ -35,4 +36,18 @@ public class Game {
 
     @OneToMany(mappedBy = "game")
     private List<Heart> hearts;
+
+    public void update(PublishGameReqDto publishGameReqDto) {
+        this.title = publishGameReqDto.getTitle();
+        this.code = publishGameReqDto.getCode();
+    }
+
+    public void watched() {
+        this.hit += 1;
+    }
+
+    public void addHeart(Heart heart) {
+        this.hearts.add(heart);
+        heart.setGame(this);
+    }
 }
