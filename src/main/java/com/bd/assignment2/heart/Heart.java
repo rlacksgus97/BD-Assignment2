@@ -8,7 +8,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 @Data
 @NoArgsConstructor
@@ -16,16 +15,12 @@ import java.io.Serializable;
 @Builder
 @Entity
 public class Heart {
-    @EmbeddedId
-    private HeartKey id;
+    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
     @ManyToOne
-    @MapsId("user_id")
-    @JoinColumn(name = "user_id")
     private User user;
 
     @ManyToOne
-    @MapsId("game_id")
-    @JoinColumn(name = "game_id")
     private Game game;
 }

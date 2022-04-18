@@ -4,6 +4,8 @@ import com.bd.assignment2.config.jwt.JwtService;
 import com.bd.assignment2.game.dto.PublishGameReqDto;
 import com.bd.assignment2.game.dto.ReadGameResDto;
 import com.bd.assignment2.game.dto.SimpleGameResDto;
+import com.bd.assignment2.heart.Heart;
+import com.bd.assignment2.heart.HeartRepository;
 import com.bd.assignment2.project.Project;
 import com.bd.assignment2.project.ProjectRepository;
 import com.bd.assignment2.user.User;
@@ -21,6 +23,7 @@ public class GameService {
     private final JwtService jwtService;
     private final ProjectRepository projectRepository;
     private final GameRepository gameRepository;
+    private final HeartRepository heartRepository;
 
     public Long publish(Long projectId, PublishGameReqDto publishGameReqDto) {
         User user = jwtService.getUserFromJwt();
@@ -69,7 +72,20 @@ public class GameService {
     }
 
     public Long like(Long gameId) {
-        return null;
+        User user = jwtService.getUserFromJwt();
+        Game game = gameRepository.findById(gameId)
+                .orElseThrow(() -> new RuntimeException("존재하지 않는 게임입니다"));
+        Optional<Heart> heart = heartRepository.findByUserAndGame(user, game);
+        if (heart.isEmpty()) {
+            Heart newHeart = Heart.builder()
+                    .build();
+            user.addHeart(heart.get());
+            game.addHeart(heart.get());
+            return heartRepository.save(newHeart).getId();
+        } else {
+            heartRepository.delete(heart.get());
+            return heart.get().getId();
+        }
     }
 
     public List<SimpleGameResDto> searchByTitle(String keyword) {

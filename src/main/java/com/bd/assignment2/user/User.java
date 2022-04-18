@@ -48,4 +48,9 @@ public class User {
         this.games.add(game);
         game.setUser(this);
     }
+
+    public void addHeart(Heart heart) {
+        this.hearts.add(heart);
+        heart.setUser(this);
+    }
 }

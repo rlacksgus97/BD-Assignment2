@@ -45,4 +45,9 @@ public class Game {
     public void watched() {
         this.hit += 1;
     }
+
+    public void addHeart(Heart heart) {
+        this.hearts.add(heart);
+        heart.setGame(this);
+    }
 }
