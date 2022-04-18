@@ -36,10 +36,12 @@ public class GameService {
     public ReadGameResDto read(Long gameId) {
         Game game = gameRepository.findById(gameId)
                 .orElseThrow(() -> new RuntimeException("존재하지 않는 게임입니다"));
+        game.watched();
         return ReadGameResDto.builder()
                 .title(game.getTitle())
                 .code(game.getCode())
                 .userName(game.getUser().getEmail())
+                .hit(game.getHit())
                 .build();
     }
 

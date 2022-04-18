@@ -9,4 +9,5 @@ public class ReadGameResDto {
     private String title;
     private String code;
     private String userName;
+    private Long hit;
 }

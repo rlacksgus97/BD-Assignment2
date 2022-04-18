@@ -41,4 +41,8 @@ public class Game {
         this.title = publishGameReqDto.getTitle();
         this.code = publishGameReqDto.getCode();
     }
+
+    public void watched() {
+        this.hit += 1;
+    }
 }
