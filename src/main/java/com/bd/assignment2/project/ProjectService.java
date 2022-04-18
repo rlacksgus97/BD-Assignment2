@@ -26,13 +26,18 @@ public class ProjectService {
     }
 
     public ReadProjectResDto read(Long id) {
+        User user = jwtService.getUserFromJwt();
         Project project = projectRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("존재하지 않는 프로젝트입니다"));
-        ReadProjectResDto readProjectResDto = ReadProjectResDto.builder()
-                .title(project.getTitle())
-                .code(project.getCode())
-                .build();
-        return readProjectResDto;
+        if (project.getUser().equals(user)) {
+            ReadProjectResDto readProjectResDto = ReadProjectResDto.builder()
+                    .title(project.getTitle())
+                    .code(project.getCode())
+                    .build();
+            return readProjectResDto;
+        } else {
+            throw new RuntimeException("프로젝트를 조회할 권한이 없습니다");
+        }
     }
 
     public Long update(Long id, UpdateProjectReqDto updateProjectReqDto) {
