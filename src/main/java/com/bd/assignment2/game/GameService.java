@@ -3,10 +3,13 @@ package com.bd.assignment2.game;
 import com.bd.assignment2.config.jwt.JwtService;
 import com.bd.assignment2.game.dto.PublishGameReqDto;
 import com.bd.assignment2.game.dto.ReadGameResDto;
+import com.bd.assignment2.game.dto.SimpleGameResDto;
 import com.bd.assignment2.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -55,5 +58,31 @@ public class GameService {
             throw new RuntimeException("게임을 삭제할 권한이 없습니다");
         }
         return gameId;
+    }
+
+    public Long like(Long gameId) {
+        return null;
+    }
+
+    public List<SimpleGameResDto> searchByTitle(String keyword) {
+        List<Game> games = gameRepository.findByTitleContaining(keyword);
+        List<SimpleGameResDto> simpleGameResDtos = new ArrayList<>();
+        if (games.size() != 0) {
+            for (Game g : games) {
+                simpleGameResDtos.add(SimpleGameResDto.toDto(g));
+            }
+        }
+        return simpleGameResDtos;
+    }
+
+    public List<SimpleGameResDto> searchByUser(String keyword) {
+        List<Game> games = gameRepository.findByUserContaining(keyword);
+        List<SimpleGameResDto> simpleGameResDtos = new ArrayList<>();
+        if (games.size() != 0) {
+            for (Game g : games) {
+                simpleGameResDtos.add(SimpleGameResDto.toDto(g));
+            }
+        }
+        return simpleGameResDtos;
     }
 }
