@@ -16,7 +16,7 @@ public class ProjectController {
     private final ProjectService projectService;
 
     @PostMapping
-    public ResponseEntity<Long> create(CreateProjectReqDto createProjectReqDto) {
+    public ResponseEntity<Long> create(@RequestBody CreateProjectReqDto createProjectReqDto) {
         return ResponseEntity.ok(projectService.create(createProjectReqDto));
     }
 
@@ -25,10 +25,10 @@ public class ProjectController {
         return ResponseEntity.ok(projectService.read(id));
     }
 
-    @PostMapping("/{id}")
-    public ResponseEntity<Long> update(@PathVariable Long id, UpdateProjectReqDto updateProjectReqDto) {
-        return ResponseEntity.ok(projectService.update(id, updateProjectReqDto));
-    }
+//    @PostMapping("/{id}")
+//    public ResponseEntity<Long> update(@PathVariable Long id, UpdateProjectReqDto updateProjectReqDto) {
+//        return ResponseEntity.ok(projectService.update(id, updateProjectReqDto));
+//    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Long> delete(@PathVariable Long id) {

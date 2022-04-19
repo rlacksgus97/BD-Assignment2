@@ -30,7 +30,7 @@ public class Project {
     @OneToOne
     private Game game;
 
-    public void update(UpdateProjectReqDto updateProjectReqDto) {
-        this.code = updateProjectReqDto.getCode();
+    public void update(String code) {
+        this.code = code;
     }
 }
