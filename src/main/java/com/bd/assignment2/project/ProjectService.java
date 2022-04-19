@@ -8,6 +8,8 @@ import com.bd.assignment2.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
 @Service
 @RequiredArgsConstructor
 public class ProjectService {
@@ -15,6 +17,7 @@ public class ProjectService {
     private final JwtService jwtService;
     private final ProjectRepository projectRepository;
 
+    @Transactional
     public Long create(CreateProjectReqDto createProjectReqDto) {
         User user = jwtService.getUserFromJwt();
         Project project = Project.builder()
@@ -25,6 +28,7 @@ public class ProjectService {
         return projectRepository.save(project).getId();
     }
 
+    @Transactional
     public ReadProjectResDto read(Long id) {
         User user = jwtService.getUserFromJwt();
         Project project = projectRepository.findById(id)
@@ -40,18 +44,24 @@ public class ProjectService {
         }
     }
 
-    public Long update(Long id, UpdateProjectReqDto updateProjectReqDto) {
-        User user = jwtService.getUserFromJwt();
+    @Transactional
+    public Long update(Long id, String code) {
+//        User user = jwtService.getUserFromJwt();
+//        Project project = projectRepository.findById(id)
+//                .orElseThrow(() -> new RuntimeException("존재하지 않는 프로젝트입니다"));
+//        if (project.getUser().equals(user)) {
+//            project.update(code);
+//        } else {
+//            throw new RuntimeException("프로젝트를 수정할 권한이 없습니다");
+//        }
+//        return id;
         Project project = projectRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("존재하지 않는 프로젝트입니다"));
-        if (project.getUser().equals(user)) {
-            project.update(updateProjectReqDto);
-        } else {
-            throw new RuntimeException("프로젝트를 수정할 권한이 없습니다");
-        }
+        project.update(code);
         return id;
     }
 
+    @Transactional
     public Long delete(Long id) {
         User user = jwtService.getUserFromJwt();
         Project project = projectRepository.findById(id)

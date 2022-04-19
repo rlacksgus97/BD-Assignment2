@@ -12,6 +12,7 @@ import com.bd.assignment2.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -25,6 +26,7 @@ public class GameService {
     private final GameRepository gameRepository;
     private final HeartRepository heartRepository;
 
+    @Transactional
     public Long publish(Long projectId, PublishGameReqDto publishGameReqDto) {
         User user = jwtService.getUserFromJwt();
         Project project = projectRepository.findById(projectId)
@@ -47,6 +49,7 @@ public class GameService {
         }
     }
 
+    @Transactional
     public ReadGameResDto read(Long gameId) {
         Game game = gameRepository.findById(gameId)
                 .orElseThrow(() -> new RuntimeException("존재하지 않는 게임입니다"));
@@ -59,6 +62,7 @@ public class GameService {
                 .build();
     }
 
+    @Transactional
     public Long delete(Long gameId) {
         User user = jwtService.getUserFromJwt();
         Game game = gameRepository.findById(gameId)
@@ -71,6 +75,7 @@ public class GameService {
         return gameId;
     }
 
+    @Transactional
     public Long like(Long gameId) {
         User user = jwtService.getUserFromJwt();
         Game game = gameRepository.findById(gameId)
@@ -88,6 +93,7 @@ public class GameService {
         }
     }
 
+    @Transactional
     public List<SimpleGameResDto> searchByTitle(String keyword) {
         List<Game> games = gameRepository.findByTitleContaining(keyword);
         List<SimpleGameResDto> simpleGameResDtos = new ArrayList<>();
@@ -99,6 +105,7 @@ public class GameService {
         return simpleGameResDtos;
     }
 
+    @Transactional
     public List<SimpleGameResDto> searchByUser(String keyword) {
         List<Game> games = gameRepository.findByUserContaining(keyword);
         List<SimpleGameResDto> simpleGameResDtos = new ArrayList<>();
