@@ -1,6 +1,5 @@
-package com.bd.assignment2.config;
+package com.bd.assignment2.config.websocket;
 
-import com.bd.assignment2.config.websocket.WebSocketHandler;
 import com.bd.assignment2.project.ProjectService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;

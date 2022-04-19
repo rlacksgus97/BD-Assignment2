@@ -12,7 +12,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Message {
+public class Fixes {
     private String sender;
+    private String projectId;
+    private String code;
     private UpdateProjectReqDto updateProjectReqDto;
 }

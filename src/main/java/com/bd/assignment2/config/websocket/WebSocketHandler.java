@@ -27,12 +27,12 @@ public class WebSocketHandler extends TextWebSocketHandler {
 
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage textMessage) throws Exception {
-        Message message = Utils.getObject(textMessage.getPayload());
+        Fixes message = Utils.getObject(textMessage.getPayload());
         if (sessions.containsKey(session.getId())) {
             projects.replace(session.getId(), message.getUpdateProjectReqDto());
-            sessions.put(session.getId(), session);
         } else {
             projects.put(session.getId(), message.getUpdateProjectReqDto());
+            sessions.put(session.getId(), session);
         }
     }
 
