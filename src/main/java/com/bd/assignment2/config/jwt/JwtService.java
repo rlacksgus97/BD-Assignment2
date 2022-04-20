@@ -79,4 +79,17 @@ public class JwtService {
                 .orElseThrow(() -> new RuntimeException("존재하지 않는 유저입니다."));
         return user;
     }
+
+    public User getUserFromJwtForStomp(String jwt) {
+        Jws<Claims> claims = null;
+        try {
+            claims = Jwts.parser().setSigningKey(secretKey.getBytes()).parseClaimsJws(jwt); // secretKey를 사용하여 복호화
+        } catch (Exception e) {
+            throw new RuntimeException("토큰 정보를 불러올 수 없습니다.");
+        }
+        Object userId = claims.getBody().get("userId");
+        User user = userRepository.findById(Long.valueOf(userId.toString()))
+                .orElseThrow(() -> new RuntimeException("존재하지 않는 유저입니다."));
+        return user;
+    }
 }
